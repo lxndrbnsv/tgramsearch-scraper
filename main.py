@@ -20,9 +20,12 @@ class TqdmCompatibleHandler(logging.StreamHandler):
         except Exception:
             self.handleError(record)
 
+
 # Настройка логирования в файл
 file_handler = logging.FileHandler("parser.log", mode="w", encoding="utf-8")
-file_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+file_handler.setFormatter(
+    logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+)
 
 handler = TqdmCompatibleHandler()
 formatter = logging.Formatter("%(message)s")
@@ -144,10 +147,12 @@ def write_xlsx(links: list, category: str) -> None:
     ws = wb.active
     ws.title = category
 
-    ws.append(["Ссылка", "Название канала", "Количество участников"])
+    ws.append(
+        ["Ссылка", "Название канала", "Категория", "Количество участников"]
+    )
 
     for url, name, members in links:
-        ws.append([url, name, members])
+        ws.append([url, name, category, members])
 
     filename = f"{category}_channels.xlsx"
     wb.save(filename)
