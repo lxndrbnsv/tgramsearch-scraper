@@ -5,6 +5,7 @@ import time
 import random
 from openpyxl import Workbook
 from tqdm import tqdm, tqdm as tqdm_module
+from datetime import datetime
 
 
 MINIMUM_MEMBERS = 1000
@@ -147,12 +148,14 @@ def write_xlsx(links: list, category: str) -> None:
     ws = wb.active
     ws.title = category
 
+    date_str = datetime.now().strftime("%d.%m.%Y")
+
     ws.append(
-        ["Ссылка", "Название канала", "Категория", "Количество участников"]
+        ["Ссылка", "Название канала", "Категория", "Количество участников", "Дата сбора"]
     )
 
     for url, name, members in links:
-        ws.append([url, name, category, members])
+        ws.append([url, name, category, members, date_str])
 
     filename = f"{category}_channels.xlsx"
     wb.save(filename)
